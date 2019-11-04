@@ -1,0 +1,22 @@
+#PBS -N WRF_Yv_
+#PBS -q Regular
+#PBS -l nodes=3:ppn=28
+#PBS -l walltime=12:00:00
+#PBS -S /bin/bash
+
+module unload pgi
+module load intel
+module load netcdf
+module load mvapich2
+module load ncl
+module load jasper
+module load zlib
+module load nco
+
+# Finds out the total number of processors we have
+cd $PBS_O_WORKDIR
+#cd /nuist/p/work/weiming/weiming_zhengyu/WRFV3/test/em_real
+nprocs=`cat $PBS_NODEFILE | wc -l`
+ulimit -s unlimited
+mpirun  -np $nprocs  ./wrf.exe
+
